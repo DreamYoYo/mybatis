@@ -1,8 +1,9 @@
 package cn.qphone.mybatis.test;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import cn.qphone.mybatis.pojo.Emp;
+import cn.qphone.mybatis.web.EmpServlet;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,18 +11,29 @@ import java.util.List;
 public class TestDemo {
 
     public static void main(String[] args) throws IOException {
-        //1. 获取工厂
-        String resource = "mybatis-config.xml";
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder()
-                .build(TestDemo.class.getClassLoader().getResourceAsStream(resource));
-        //2. 通过工厂获取到sqlsession
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //1. 测试查询所有
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext-*.xml");
 
-        //3. 查询员工信息
-        List<Emp> elist = sqlSession.selectList("emp.findUserList");
+        EmpServlet empServlet = context.getBean(EmpServlet.class);
+//        List<Emp> empList = empServlet.findEmpList();
+//        System.out.println(empList);
 
-        //4. 打印
-        System.out.println(elist);
+        //2.测试通过id查询
+//        Emp emp = empServlet.get(1207);
+//        System.out.println(emp);
 
+        //3. 修改
+//        emp.setName("old lee head");
+//        empServlet.update(emp);
+
+//        4. 插入
+//        Emp newEmp = new Emp(1212, "程志远", "boss", 1000000.0, "qphone");
+//        empServlet.insert(newEmp);
+
+        //5. 删除
+//        empServlet.delete(1212);
+
+        //6. 转帐
+        empServlet.trans();
     }
 }
